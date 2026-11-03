@@ -492,6 +492,8 @@
     .plan.popular{transform:none}
   }
 </style>
+<link rel="stylesheet" href="cinematic/cinematic.css">
+<link rel="stylesheet" href="cinematic/cine-interact.css">
 </head>
 <body>
 
@@ -562,6 +564,9 @@
       <a class="scroll-cue" href="#problem">Scroll<span class="chev" aria-hidden="true"></span></a>
     </div>
   </section>
+<section class="cine-mod-wrap" id="calculator"><div class="cine-mod" data-cine-mod="calc" style="--cine-accent:#f26d5b;--cine-accent-2:#f2b544"><noscript><div class="cmod-fallback"><p>Enter one per-creation tier. The first number is what the auto-switch does to it; the second is the average-based price a deliberate switch can use.</p><p><a href="https://buy.stripe.com/3cIaEW2Np3AC9ladq18sp0A">Switch me — $449 Switch Pack</a></p></div></noscript><script type="application/json" class="cine-mod-config">{"cta": {"href": "https://buy.stripe.com/3cIaEW2Np3AC9ladq18sp0A", "label": "Switch me \u2014 $449 Switch Pack", "note": "Secure checkout via Stripe \u00b7 delivered before Nov 1 or free"}, "demoNote": "Illustrative math based on Patreon's published switching rules (Patreon Help Center, verified Oct 28, 2026) \u2014 the same formula as the worked example on this page. Your members' existing monthly limits are honored under both paths.", "eyebrow": "The calculator", "inputs": [{"format": "money", "hint": "", "id": "price", "label": "Tier price per creation", "max": 50, "min": 1, "step": 0.5, "value": 5}, {"format": "int", "id": "peak", "label": "Paid posts in your busiest month (last 3)", "max": 10, "min": 0, "step": 1, "value": 3}, {"format": "int", "id": "avg", "label": "Paid posts in an average month", "max": 10, "min": 0, "step": 0.1, "value": 2.4}, {"format": "int", "id": "members", "label": "Members on this tier", "max": 1000, "min": 0, "step": 10, "value": 100}], "intro": "Enter one per-creation tier. The first number is what the auto-switch does to it; the second is the average-based price a deliberate switch can use.", "outputs": [{"expr": "price*peak", "format": "money", "id": "default_mo", "label": "Auto-switch default \u2014 priced off your peak month"}, {"expr": "price*avg", "format": "money", "id": "deliberate_mo", "label": "Deliberate switch \u2014 priced off your 3-month average"}, {"expr": "price*avg/0.7", "format": "money", "id": "ios_mo", "label": "iOS maintain-earnings price \u2014 the deliberate price + 42.86%, so Apple's 30% in-app fee doesn't come out of your pocket"}, {"expr": "price*(peak-avg)", "format": "money", "id": "diff", "label": "Overcharge avoided \u2014 per member / month"}, {"expr": "price*(peak-avg)*members", "format": "money", "hero": true, "id": "total", "label": "Overcharge avoided across your members \u2014 per month"}], "secondaryCta": {"href": "https://buy.stripe.com/dRmcN43Rtc7868Y0Df8sp0z", "label": "Get the Audit \u2014 $149"}, "title": "Run your own tier through the default formula"}</script></div></section>
+<script src="cinematic/calc.js" defer></script>
+
 
   <!-- ============ PROBLEM ============ -->
   <section class="block tint" id="problem">
@@ -654,74 +659,6 @@
     </div>
   </section>
 
-
-  <!-- ============ CALCULATOR ============ -->
-  <section class="block calc-section" id="calculator">
-    <div class="wrap">
-      <div class="center reveal">
-        <p class="kicker">The calculator</p>
-        <h2>Run your own tier through the default formula</h2>
-        <p class="sub">Enter one per-creation tier. The first number is what the auto-switch does to it; the second is the average-based price a deliberate switch can use.</p>
-      </div>
-
-      <div class="calc reveal">
-        <div class="calc-grid">
-          <div class="field">
-            <label for="in-price">Tier price per creation</label>
-            <div class="input-row"><span class="prefix">$</span><input id="in-price" type="number" inputmode="decimal" min="1" step="0.5" value="5"></div>
-            <input id="r-price" type="range" min="1" max="50" step="0.5" value="5" aria-label="Tier price per creation slider">
-          </div>
-          <div class="field">
-            <label for="in-peak">Paid posts in your busiest month (last 3)</label>
-            <div class="input-row"><input id="in-peak" type="number" inputmode="numeric" min="0" step="1" value="3"></div>
-            <input id="r-peak" type="range" min="0" max="10" step="1" value="3" aria-label="Paid posts in your busiest month slider">
-          </div>
-          <div class="field">
-            <label for="in-avg">Paid posts in an average month</label>
-            <div class="input-row"><input id="in-avg" type="number" inputmode="decimal" min="0" step="0.1" value="2.4"></div>
-            <input id="r-avg" type="range" min="0" max="10" step="0.1" value="2.4" aria-label="Paid posts in an average month slider">
-          </div>
-          <div class="field">
-            <label for="in-members">Members on this tier</label>
-            <div class="input-row"><input id="in-members" type="number" inputmode="numeric" min="0" step="1" value="100"></div>
-            <input id="r-members" type="range" min="0" max="1000" step="10" value="100" aria-label="Members on this tier slider">
-          </div>
-        </div>
-        <div class="calc-out">
-          <div class="out-cell danger">
-            <div class="o-label">Auto-switch default</div>
-            <div class="o-num" id="out-default">$15.00/mo</div>
-            <div class="o-note">Priced off your peak month — the formula Patreon applies if you do nothing.</div>
-          </div>
-          <div class="out-cell safe">
-            <div class="o-label">Deliberate switch</div>
-            <div class="o-num" id="out-avg">$12.00/mo</div>
-            <div class="o-note">Priced off your 3-month average — what this tier actually earns in a typical month.</div>
-          </div>
-          <div class="out-cell ios">
-            <div class="o-label">iOS maintain-earnings price</div>
-            <div class="o-num" id="out-ios">$17.14/mo</div>
-            <div class="o-note">The deliberate price + 42.86%, so Apple's 30% in-app fee doesn't come out of your pocket.</div>
-          </div>
-        </div>
-        <div class="calc-result" aria-live="polite">
-          <div class="r-stat">
-            <div class="r-label">Overcharge avoided · per member / month</div>
-            <div class="r-num" id="out-diff">$3.00/mo</div>
-          </div>
-          <div class="r-stat">
-            <div class="r-label">Across <span id="out-members-count">100</span> members on this tier · per month</div>
-            <div class="r-num big" id="out-total">$300.00/mo</div>
-          </div>
-          <div class="r-cta">
-            <a class="btn btn-coral" href="https://buy.stripe.com/3cIaEW2Np3AC9ladq18sp0A">Switch me — $449 Switch Pack</a>
-            <p class="micro">Secure checkout via Stripe · delivered before Nov 1 or free</p>
-          </div>
-        </div>
-        <p class="calc-fine">Illustrative math based on Patreon's published switching rules (Patreon Help Center, verified Oct 28, 2026). Your members' existing monthly limits are honored under both paths.</p>
-      </div>
-    </div>
-  </section>
 
   <!-- ============ HOW IT WORKS ============ -->
   <section class="block tint" id="how">
@@ -962,63 +899,6 @@
     setInterval(tick, 1000);
   })();
 
-  // Tier repricing calculator — original formula, extended with member totals
-  (function () {
-    var pairs = [
-      { num: document.getElementById('in-price'),   range: document.getElementById('r-price') },
-      { num: document.getElementById('in-peak'),    range: document.getElementById('r-peak') },
-      { num: document.getElementById('in-avg'),     range: document.getElementById('r-avg') },
-      { num: document.getElementById('in-members'), range: document.getElementById('r-members') }
-    ];
-    var outD = document.getElementById('out-default'),
-        outA = document.getElementById('out-avg'),
-        outI = document.getElementById('out-ios'),
-        outDiff = document.getElementById('out-diff'),
-        outTotal = document.getElementById('out-total'),
-        outCount = document.getElementById('out-members-count');
-    function money(n) {
-      var sign = n < 0 ? '-$' : '$';
-      return sign + Math.abs(n).toFixed(2) + '/mo';
-    }
-    function num(el, fallback) {
-      var v = parseFloat(el.value);
-      return (isNaN(v) || v < 0) ? fallback : v;
-    }
-    function paintRange(r) {
-      var min = parseFloat(r.min), max = parseFloat(r.max), v = parseFloat(r.value);
-      var pct = max > min ? ((v - min) / (max - min)) * 100 : 0;
-      r.style.setProperty('--fill', pct + '%');
-    }
-    function calc() {
-      var p  = num(pairs[0].num, 0),
-          pk = num(pairs[1].num, 0),
-          av = num(pairs[2].num, 0),
-          mb = num(pairs[3].num, 0);
-      var def = p * pk, del = p * av, diff = def - del;
-      outD.textContent = money(def);
-      outA.textContent = money(del);
-      outI.textContent = money(del * 1.4286);
-      outDiff.textContent = money(diff);
-      outTotal.textContent = money(diff * mb);
-      outCount.textContent = Math.round(mb).toLocaleString('en-US');
-    }
-    pairs.forEach(function (pair) {
-      pair.num.addEventListener('input', function () {
-        pair.range.value = pair.num.value;
-        paintRange(pair.range);
-        calc();
-      });
-      pair.num.addEventListener('change', calc);
-      pair.range.addEventListener('input', function () {
-        pair.num.value = pair.range.value;
-        paintRange(pair.range);
-        calc();
-      });
-      paintRange(pair.range);
-    });
-    calc();
-  })();
-
   // Scroll-triggered reveals (+ worked-example bar animation hook)
   (function () {
     var targets = document.querySelectorAll('.reveal, #example');
@@ -1114,5 +994,6 @@
     onScroll();
   })();
 </script>
+<script src="cinematic/cinematic.js" defer data-hero="assets/hero-cine.svg" data-accent="#f26d5b" data-accent-2="#f2b544" data-pos="50% 50%"></script>
 </body>
 </html>
